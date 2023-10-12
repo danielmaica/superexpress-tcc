@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "110139743599",
+    "project_id": "superexpress-1afc7",
+    "storage_bucket": "superexpress-1afc7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110139743599:android:cd5f8850e9ee04dbeadc9a",
+        "android_client_info": {
+          "package_name": "com.example.superexpress_tcc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeCKBHwRulhivWfWmG0xouMRPOarHLPVo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
