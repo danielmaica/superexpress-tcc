@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:superexpress_tcc/home/home_page.dart';
-import 'package:superexpress_tcc/login/resetPass_page.dart';
+import 'package:superexpress_tcc/login/reset_pass_page.dart';
 import 'package:superexpress_tcc/login/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
