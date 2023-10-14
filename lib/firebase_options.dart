@@ -17,15 +17,24 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,39 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCaWO80aG0y__DYMQPb5q5pl2hh9m0EDGo',
-    appId: '1:110139743599:web:e648b33ae6cc52e8eadc9a',
-    messagingSenderId: '110139743599',
-    projectId: 'superexpress-1afc7',
-    authDomain: 'superexpress-1afc7.firebaseapp.com',
-    storageBucket: 'superexpress-1afc7.appspot.com',
-    measurementId: 'G-P76FX2LZ3R',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDeCKBHwRulhivWfWmG0xouMRPOarHLPVo',
-    appId: '1:110139743599:android:cd5f8850e9ee04dbeadc9a',
-    messagingSenderId: '110139743599',
-    projectId: 'superexpress-1afc7',
-    storageBucket: 'superexpress-1afc7.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC2As6MTZSe7f3D8dQJ6R-pkqLHHxL3pzo',
-    appId: '1:110139743599:ios:3459b576375c94f6eadc9a',
-    messagingSenderId: '110139743599',
-    projectId: 'superexpress-1afc7',
-    storageBucket: 'superexpress-1afc7.appspot.com',
-    iosBundleId: 'com.example.superexpressTcc',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyC2As6MTZSe7f3D8dQJ6R-pkqLHHxL3pzo',
-    appId: '1:110139743599:ios:4e4985f7a68599e7eadc9a',
-    messagingSenderId: '110139743599',
-    projectId: 'superexpress-1afc7',
-    storageBucket: 'superexpress-1afc7.appspot.com',
-    iosBundleId: 'com.example.superexpressTcc.RunnerTests',
+    apiKey: 'AIzaSyCJ2CGkVpsqTXwysmkRER-25jlC9Neo8pg',
+    appId: '1:626373983907:android:9227c0b7f39d8bd4e50916',
+    messagingSenderId: '626373983907',
+    projectId: 'tcc-superexpress',
+    storageBucket: 'tcc-superexpress.appspot.com',
   );
 }

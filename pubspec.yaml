@@ -30,16 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # Bibliotecas do Firebase
-  firebase_core: "^1.10.0" # Necessário para inicializar o Firebase
-  firebase_auth: "^3.3.3" # Para autenticação de usuários
-  cloud_firestore: "^3.1.0" # Para usar o banco de dados Firestoreecho "# superexpress-tcc" >> README.md
-
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  firebase_auth: ^4.3.0
+  firebase_core: ^2.8.0
+  cloud_firestore: ^4.4.5
 
 dev_dependencies:
   flutter_test:

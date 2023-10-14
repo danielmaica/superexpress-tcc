@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:superexpress_tcc/home/home_page.dart';
-import 'package:superexpress_tcc/login/reset_pass_page.dart';
-import 'package:superexpress_tcc/login/signup_page.dart';
+import 'package:superexpress_tcc/screens/home/home_page.dart';
+import 'package:superexpress_tcc/screens/login/reset_pass_page.dart';
+import 'package:superexpress_tcc/screens/login/signup_page.dart';
+import 'package:superexpress_tcc/util/Navigator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required String title});
@@ -14,6 +16,29 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+
+  String get username => _emailController.text;
+  String get password => _passwordController.text;
+
+  void doLogin(BuildContext context) async {
+    try {
+      UserCredential user = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: username, password: password);
+      if (user != null) {
+        _passwordController.text = '';
+        FirebaseAuthAppNavigator.goToHome(context);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Logado com suceso."),
+          backgroundColor: Colors.redAccent,
+        ));
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Login Inválido"),
+        backgroundColor: Colors.redAccent,
+      ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,10 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                           ]),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
+                          doLogin(context);
                         }
                       },
                     ),
