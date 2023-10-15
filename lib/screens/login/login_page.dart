@@ -1,9 +1,11 @@
+// ignore_for_file: use_build_context_synchronously, unnecessary_null_comparison
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:superexpress_tcc/screens/home/home_page.dart';
 import 'package:superexpress_tcc/screens/login/reset_pass_page.dart';
 import 'package:superexpress_tcc/screens/login/signup_page.dart';
-import 'package:superexpress_tcc/util/Navigator.dart';
+import 'package:superexpress_tcc/util/navigator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required String title});
@@ -24,16 +26,16 @@ class _LoginPageState extends State<LoginPage> {
     try {
       UserCredential user = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: username, password: password);
+      _passwordController.text = '';
       if (user != null) {
-        _passwordController.text = '';
-        FirebaseAuthAppNavigator.goToHome(context);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Logado com suceso."),
-          backgroundColor: Colors.redAccent,
-        ));
+        // FirebaseAuthAppNavigator.goToHome(context);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Login Inválido"),
         backgroundColor: Colors.redAccent,
       ));

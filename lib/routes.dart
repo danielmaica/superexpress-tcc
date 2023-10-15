@@ -4,8 +4,8 @@ import 'package:superexpress_tcc/screens/login/login_page.dart';
 
 class FirebaseAuthAppRoutes {
   var routes = <String, WidgetBuilder>{
-    "/home": (BuildContext context) => HomePage(),
-    "/login": (BuildContext context) => LoginPage(
+    "/home": (BuildContext context) => const HomePage(),
+    "/login": (BuildContext context) => const LoginPage(
           title: 'login',
         ),
   };
