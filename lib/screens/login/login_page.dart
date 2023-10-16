@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:superexpress_tcc/screens/home/home_page.dart';
 import 'package:superexpress_tcc/screens/login/reset_pass_page.dart';
 import 'package:superexpress_tcc/screens/login/signup_page.dart';
-import 'package:superexpress_tcc/util/navigator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required String title});
@@ -19,26 +18,27 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  String get username => _emailController.text;
+  String get email => _emailController.text;
   String get password => _passwordController.text;
 
-  void doLogin(BuildContext context) async {
-    try {
-      UserCredential user = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: username, password: password);
-      _passwordController.text = '';
-      if (user != null) {
-        // FirebaseAuthAppNavigator.goToHome(context);
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
+  void doLogin() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        UserCredential user = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: email, password: password);
+        if (user != null) {
+          // FirebaseAuthAppNavigator.goToHome(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Login Inválido"),
+          backgroundColor: Colors.redAccent,
+        ));
       }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Login Inválido"),
-        backgroundColor: Colors.redAccent,
-      ));
     }
   }
 
@@ -61,6 +61,18 @@ class _LoginPageState extends State<LoginPage> {
                   width: 128,
                   height: 128,
                   child: Image.asset("assets/logo.png"),
+                ),
+
+                // Título
+                Container(
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: const Text("Login",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFFEE3F3E),
+                        fontSize: 25,
+                      )),
                 ),
 
                 // Espaçamento
@@ -187,9 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                             )
                           ]),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          doLogin(context);
-                        }
+                        doLogin();
                       },
                     ),
                   ),
@@ -247,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const SignUp()));
+                              builder: (context) => const SignUpPage()));
                     },
                     child: const Text(
                       "Cadastre-se",

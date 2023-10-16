@@ -20,7 +20,7 @@ class Product extends StatelessWidget {
     return InkWell(
         onTap: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => ProductDetailPage()));
+              MaterialPageRoute(builder: (context) => const ProductDetailPage()));
         },
         child: Card(
           shadowColor: Colors.black54,
