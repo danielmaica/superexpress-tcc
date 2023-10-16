@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:superexpress_tcc/screens/home/product_list.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,6 +22,8 @@ class HomePage extends StatelessWidget {
               ],
             )),
       ),
+      body:
+          const ProductList(),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
