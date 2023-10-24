@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:superexpress_tcc/screens/home/home_page.dart';
 import 'package:superexpress_tcc/screens/login/reset_pass_page.dart';
 import 'package:superexpress_tcc/screens/login/signup_page.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required String title});
@@ -209,39 +211,53 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
 
-                // Botão de Login com Facebook
+                // Botão de Login com Google
                 Container(
                   height: 60,
                   alignment: Alignment.centerLeft,
                   decoration: const BoxDecoration(
-                      color: Color(0xFF3C5A99),
-                      borderRadius: BorderRadius.all(Radius.circular(5))),
+                    color: Color(0xFF3C5A99),
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
+                  ),
                   child: SizedBox.expand(
-                      child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomePage()));
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                const Text(
-                                  "Login com Facebook",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                SizedBox(
-                                  height: 28,
-                                  width: 28,
-                                  child: Image.asset("assets/fb-icon.png"),
-                                )
-                              ]))),
+                    child: TextButton(
+                      onPressed: () async {
+                        final userCredential = await signInWithGoogle();
+                        if (userCredential != null) {
+                          // Usuário logado com sucesso, você pode redirecioná-lo para a página principal
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomePage(),
+                            ),
+                            (route) =>
+                                false, // Remove todas as rotas da pilha, exceto a nova HomePage
+                          );
+                        }
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          const Text(
+                            "Login com Google",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                          SizedBox(
+                            height: 28,
+                            width: 28,
+                            child: Image.asset(
+                              "assets/gl-icone.png",
+                            ), // Certifique-se de que o nome do arquivo de imagem esteja correto
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
 
                 // Espaçamento
