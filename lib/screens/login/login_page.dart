@@ -20,6 +20,9 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  // Adicione esta variável para rastrear o estado de login
+  bool isLoggedIn = false;
+
   String get email => _emailController.text;
   String get password => _passwordController.text;
 
@@ -29,8 +32,10 @@ class _LoginPageState extends State<LoginPage> {
         UserCredential user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
         if (user != null) {
-          // FirebaseAuthAppNavigator.goToHome(context);
-          Navigator.push(
+          setState(() {
+            isLoggedIn = true;
+          });
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const HomePage()),
           );

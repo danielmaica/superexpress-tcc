@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:superexpress_tcc/screens/home/product_list.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +22,7 @@ class HomePage extends StatelessWidget {
               ],
             )),
       ),
-      body:
-          const ProductList(),
+      body: const ProductList(),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
