@@ -5,12 +5,14 @@ class Product extends StatelessWidget {
   final String id;
   final String name;
   final String price;
+  final String description;
   final String imageUrl;
 
   Product({
     required this.id,
     required this.name,
     required this.price,
+    required this.description,
     required this.imageUrl,
   });
 
@@ -25,6 +27,7 @@ class Product extends StatelessWidget {
               id: id,
               name: name,
               price: price,
+              description: description,
               imageUrl: imageUrl,
             ),
           ),
@@ -63,6 +66,7 @@ class ProductList extends StatelessWidget {
               id: document.id,
               name: data['nome'] ?? '',
               price: 'R\$ ${data['preco'].toString() ?? '0'}',
+              description: data['descricao'] ?? '',
               imageUrl: data['imageUrl'] ?? '',
             );
           }).toList(),
@@ -76,12 +80,14 @@ class ProductDetailPage extends StatelessWidget {
   final String id;
   final String name;
   final String price;
+  final String description;
   final String imageUrl;
 
   ProductDetailPage({
     required this.id,
     required this.name,
     required this.price,
+    required this.description,
     required this.imageUrl,
   });
 
@@ -96,6 +102,10 @@ class ProductDetailPage extends StatelessWidget {
           Image.network(imageUrl),
           Text(name),
           Text(price),
+          Text(
+            description,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
