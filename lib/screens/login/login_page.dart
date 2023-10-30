@@ -184,6 +184,13 @@ class _LoginPageState extends State<LoginPage> {
                           Color(0xFFF5DE34),
                         ]),
                     borderRadius: BorderRadius.all(Radius.circular(10)),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 7,
+                          spreadRadius: 1,
+                          color: Colors.grey,
+                          offset: Offset(0, 1)),
+                    ],
                   ),
                   child: SizedBox.expand(
                     child: TextButton(
@@ -221,8 +228,15 @@ class _LoginPageState extends State<LoginPage> {
                   height: 60,
                   alignment: Alignment.centerLeft,
                   decoration: const BoxDecoration(
-                    color: Color(0xFF3C5A99),
+                    color: Color(0xFFFFFFFF),
                     borderRadius: BorderRadius.all(Radius.circular(5)),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 7,
+                          spreadRadius: 1,
+                          color: Colors.grey,
+                          offset: Offset(0, 1)),
+                    ],
                   ),
                   child: SizedBox.expand(
                     child: TextButton(
@@ -247,7 +261,7 @@ class _LoginPageState extends State<LoginPage> {
                             "Login com Google",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Color(0xFFEA4335),
                               fontSize: 20,
                             ),
                             textAlign: TextAlign.left,

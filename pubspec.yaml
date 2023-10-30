@@ -65,6 +65,7 @@ flutter:
     - assets/fb-icon.png
     - assets/reset-password-icon.png
     - assets/maca.png
+    - assets/gl-icone.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
