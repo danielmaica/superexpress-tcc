@@ -170,7 +170,15 @@ class ProductDetailPage extends StatelessWidget {
                         child: Image.asset("assets/shop_cart.png"),
                       )
                     ]),
-                onPressed: () {},
+                onPressed: () {
+                  FirebaseFirestore.instance.collection('carrinho').add({
+                    'id': id,
+                    'nome': name,
+                    'preco': price,
+                    'descricao': description,
+                    'imageUrl': imageUrl,
+                  });
+                },
               ),
             ),
           ),
