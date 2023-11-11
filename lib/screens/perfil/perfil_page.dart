@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:superexpress_tcc/screens/home/product_list.dart';
 import 'package:superexpress_tcc/util/navbar.dart';
 
 class PerfilPage extends StatelessWidget {
