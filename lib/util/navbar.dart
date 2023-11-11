@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:superexpress_tcc/screens/cart/cart_page.dart';
 import 'package:superexpress_tcc/screens/home/home_page.dart';
+import 'package:superexpress_tcc/screens/perfil/perfil_page.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({Key? key}) : super(key: key);
@@ -33,7 +34,8 @@ class Navbar extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const CartPage()));
             break;
           case 2:
-            // Navigator.pushNamed(context, '/perfil');
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const PerfilPage()));
             break;
         }
       },
