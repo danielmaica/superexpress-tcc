@@ -99,10 +99,14 @@ class CartPage extends StatelessWidget {
                 },
                 child: const Text('Finalizar Compra'),
               ),
+              const SizedBox(
+                height: 30,
+              ),
             ],
           );
         },
       ),
+      bottomNavigationBar: const Navbar(),
     );
   }
 }
