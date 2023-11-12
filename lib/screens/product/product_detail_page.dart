@@ -17,7 +17,7 @@ class ProductDetailPage extends StatelessWidget {
     required this.imageUrl,
   });
 
-  void AddToCart() async {
+  void AddToCart(BuildContext context) async {
     await FirebaseFirestore.instance.collection('carrinho').add({
       'id': id,
       'nome': name,
@@ -25,6 +25,12 @@ class ProductDetailPage extends StatelessWidget {
       'descricao': description,
       'imageUrl': imageUrl,
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Produto adicionado ao carrinho!'),
+        backgroundColor: Colors.greenAccent,
+      ),
+    );
   }
 
   @override
@@ -105,7 +111,7 @@ class ProductDetailPage extends StatelessWidget {
                       )
                     ]),
                 onPressed: () {
-                  AddToCart();
+                  AddToCart(context);
                 },
               ),
             ),

@@ -1,10 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:superexpress_tcc/screens/home/product_list.dart';
 import 'package:superexpress_tcc/util/navbar.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
+
+  void RemoveProduct(BuildContext context, String id) async {
+    // Remove o item do carrinho
+    await FirebaseFirestore.instance.collection('carrinho').doc(id).delete();
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Produto removido do carrinho!'),
+        backgroundColor: Colors.orangeAccent,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +71,7 @@ class CartPage extends StatelessWidget {
                       trailing: IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          // Remove o item do carrinho
-                          FirebaseFirestore.instance
-                              .collection('carrinho')
-                              .doc(document.id)
-                              .delete();
+                          RemoveProduct(context, document.id);
                         },
                       ),
                     );
