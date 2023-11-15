@@ -7,14 +7,17 @@ class ProductDetailPage extends StatelessWidget {
   final String price;
   final String description;
   final String imageUrl;
+  final int stock;
+  int quantity = 1;
 
-  const ProductDetailPage({
+  ProductDetailPage({
     super.key,
     required this.id,
     required this.name,
     required this.price,
     required this.description,
     required this.imageUrl,
+    required this.stock,
   });
 
   void AddToCart(BuildContext context) async {
@@ -65,6 +68,50 @@ class ProductDetailPage extends StatelessWidget {
           Text(
             description,
             textAlign: TextAlign.center,
+          ),
+          Text(
+            'Em estoque: $stock',
+            textAlign: TextAlign.center,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Quantidade: $quantity',
+                textAlign: TextAlign.center,
+              ),
+              IconButton(
+                icon: const Icon(Icons.remove),
+                onPressed: () {
+                  if (quantity > 1) {
+                    quantity--;
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Quantidade mínima atingida.'),
+                        backgroundColor: Colors.deepOrangeAccent,
+                      ),
+                    );
+                  }
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  if (quantity < stock) {
+                    quantity++;
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                            Text('Máximo de produtos em estoque atingido.'),
+                        backgroundColor: Colors.deepOrangeAccent,
+                      ),
+                    );
+                  }
+                },
+              ),
+            ],
           ),
 
           // Espaçamento

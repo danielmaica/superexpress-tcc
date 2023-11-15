@@ -8,6 +8,7 @@ class Product extends StatelessWidget {
   final String price;
   final String description;
   final String imageUrl;
+  final int stock;
 
   const Product({
     super.key,
@@ -16,6 +17,7 @@ class Product extends StatelessWidget {
     required this.price,
     required this.description,
     required this.imageUrl,
+    required this.stock,
   });
 
   void AddToCart(BuildContext context) async {
@@ -47,6 +49,7 @@ class Product extends StatelessWidget {
                 price: price,
                 description: description,
                 imageUrl: imageUrl,
+                stock: stock,
               ),
             ),
           );
@@ -93,12 +96,12 @@ class ProductList extends StatelessWidget {
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> data = document.data() as Map<String, dynamic>;
             return Product(
-              id: document.id,
-              name: data['nome'] ?? '',
-              price: 'R\$ ${data['preco'].toString() ?? '0'}',
-              description: data['descricao'] ?? '',
-              imageUrl: data['imageUrl'] ?? '',
-            );
+                id: document.id,
+                name: data['nome'] ?? '',
+                price: 'R\$ ${data['preco'].toString() ?? '0'}',
+                description: data['descricao'] ?? '',
+                imageUrl: data['imageUrl'] ?? '',
+                stock: data['estoque']);
           }).toList(),
         );
       },
