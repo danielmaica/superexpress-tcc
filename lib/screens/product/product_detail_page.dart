@@ -1,32 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatefulWidget {
   final String id;
   final String name;
   final String price;
   final String description;
   final String imageUrl;
   final int stock;
-  int quantity = 1;
 
   ProductDetailPage({
-    super.key,
+    Key? key,
     required this.id,
     required this.name,
     required this.price,
     required this.description,
     required this.imageUrl,
     required this.stock,
-  });
+  }) : super(key: key);
 
-  void AddToCart(BuildContext context) async {
+  @override
+  _ProductDetailPageState createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> {
+  int quantity = 1;
+
+  void addToCart(BuildContext context) async {
     await FirebaseFirestore.instance.collection('carrinho').add({
-      'id': id,
-      'nome': name,
-      'preco': price,
-      'descricao': description,
-      'imageUrl': imageUrl,
+      'id': widget.id,
+      'nome': widget.name,
+      'preco': widget.price,
+      'descricao': widget.description,
+      'imageUrl': widget.imageUrl,
     });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -40,7 +46,7 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(name),
+        title: Text(widget.name),
       ),
       body: Container(
         padding: const EdgeInsets.only(
@@ -49,28 +55,28 @@ class ProductDetailPage extends StatelessWidget {
           right: 40,
         ),
         child: ListView(children: <Widget>[
-          Image.network(imageUrl),
+          Image.network(widget.imageUrl),
 
           // Espaçamento
           const SizedBox(
             height: 30,
           ),
 
-          Text(name,
+          Text(widget.name,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 20)),
-          Text('Preço: $price',
+          Text('Preço: ${widget.price}',
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.green)),
           Text(
-            description,
+            widget.description,
             textAlign: TextAlign.center,
           ),
           Text(
-            'Em estoque: $stock',
+            'Em estoque: ${widget.stock}',
             textAlign: TextAlign.center,
           ),
           Row(
@@ -84,7 +90,9 @@ class ProductDetailPage extends StatelessWidget {
                 icon: const Icon(Icons.remove),
                 onPressed: () {
                   if (quantity > 1) {
-                    quantity--;
+                    setState(() {
+                      quantity--;
+                    });
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -98,8 +106,10 @@ class ProductDetailPage extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.add),
                 onPressed: () {
-                  if (quantity < stock) {
-                    quantity++;
+                  if (quantity < widget.stock) {
+                    setState(() {
+                      quantity++;
+                    });
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -158,7 +168,7 @@ class ProductDetailPage extends StatelessWidget {
                       )
                     ]),
                 onPressed: () {
-                  AddToCart(context);
+                  addToCart(context);
                 },
               ),
             ),

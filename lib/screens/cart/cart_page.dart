@@ -5,7 +5,7 @@ import 'package:superexpress_tcc/util/navbar.dart';
 class CartPage extends StatelessWidget {
   const CartPage({Key? key}) : super(key: key);
 
-  void RemoveProduct(BuildContext context, String id) async {
+  void removeProduct(BuildContext context, String id) async {
     // Remove o item do carrinho
     await FirebaseFirestore.instance.collection('carrinho').doc(id).delete();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -49,7 +49,9 @@ class CartPage extends StatelessWidget {
           double total = snapshot.data!.docs.fold(0, (tot, doc) {
             String precoStr = (doc.data() as Map<String, dynamic>)['preco'];
             precoStr = precoStr.replaceAll('R\$', '').replaceAll(',', '.');
-            return tot + double.parse(precoStr);
+            int quantity =
+                (doc.data() as Map<String, dynamic>)['quantidade'] ?? 1;
+            return tot + double.parse(precoStr) * quantity;
           });
 
           // Formata o valor total para ter duas casas decimais
@@ -64,55 +66,50 @@ class CartPage extends StatelessWidget {
                       snapshot.data!.docs.map((DocumentSnapshot document) {
                     Map<String, dynamic> data =
                         document.data() as Map<String, dynamic>;
-                    return ListTile(
-                      title: Text(data['nome']),
-                      subtitle: Text(data['preco']),
-                      leading: Image.network(data['imageUrl']),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          RemoveProduct(context, document.id);
-                        },
+                    int quantity = (document.data()
+                            as Map<String, dynamic>)['quantidade'] ??
+                        1;
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      child: ListTile(
+                        leading: Image.network(data['imageUrl']),
+                        title: Text(data['nome']),
+                        subtitle: Text('Quantidade: $quantity'),
+                        trailing: Text(data['preco']),
+                        onTap: () => removeProduct(context, document.id),
                       ),
                     );
                   }).toList(),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text('Total: R\$ $totalStr'),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Total:',
+                      style: const TextStyle(fontSize: 20, color: Colors.grey),
+                    ),
+                    Text(
+                      'R\$ $totalStr',
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
               ElevatedButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Compra Concluída'),
-                        content:
-                            const Text('Sua compra foi concluída com sucesso!'),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('OK'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  // Adicione aqui a lógica para finalizar a compra
                 },
                 child: const Text('Finalizar Compra'),
-              ),
-              const SizedBox(
-                height: 30,
               ),
             ],
           );
         },
       ),
-      bottomNavigationBar: const Navbar(),
     );
   }
 }
