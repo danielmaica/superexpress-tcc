@@ -110,6 +110,7 @@ class CartPage extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: Navbar(),
     );
   }
 }
