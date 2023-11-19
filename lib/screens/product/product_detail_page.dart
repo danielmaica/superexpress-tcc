@@ -26,18 +26,37 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   int quantity = 1;
 
-  void addToCart(BuildContext context) async {
-    await FirebaseFirestore.instance.collection('carrinho').add({
-      'id': widget.id,
-      'nome': widget.name,
-      'preco': widget.price,
-      'descricao': widget.description,
-      'imageUrl': widget.imageUrl,
-    });
+  void AddToCart(BuildContext context) async {
+    // Referência para a coleção "carrinho"
+    CollectionReference carrinho =
+        FirebaseFirestore.instance.collection('carrinho');
+
+    // Consulta para verificar a existência do produto pelo ID
+    QuerySnapshot querySnapshot =
+        await carrinho.where('id', isEqualTo: widget.id).get();
+
+    if (querySnapshot.docs.isEmpty) {
+      await FirebaseFirestore.instance.collection('carrinho').add({
+        'id': widget.id,
+        'nome': widget.name,
+        'preco': widget.price,
+        'descricao': widget.description,
+        'imageUrl': widget.imageUrl,
+        'estoque': widget.stock,
+        'quantidade': quantity
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Produto adicionado ao carrinho!'),
+          backgroundColor: Colors.greenAccent,
+        ),
+      );
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Produto adicionado ao carrinho!'),
-        backgroundColor: Colors.greenAccent,
+        content: Text('Este produto já está no carrinho, escolha outro!'),
+        backgroundColor: Colors.red,
       ),
     );
   }
@@ -75,10 +94,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             widget.description,
             textAlign: TextAlign.center,
           ),
-          Text(
-            'Em estoque: ${widget.stock}',
-            textAlign: TextAlign.center,
-          ),
+          // Text(
+          //   'Em estoque: ${widget.stock}',
+          //   textAlign: TextAlign.center,
+          // ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -168,7 +187,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       )
                     ]),
                 onPressed: () {
-                  addToCart(context);
+                  AddToCart(context);
                 },
               ),
             ),

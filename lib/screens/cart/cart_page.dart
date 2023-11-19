@@ -2,9 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:superexpress_tcc/util/navbar.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
 
+  @override
+  _CartPageState createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
   void removeProduct(BuildContext context, String id) async {
     // Remove o item do carrinho
     await FirebaseFirestore.instance.collection('carrinho').doc(id).delete();
@@ -14,6 +19,18 @@ class CartPage extends StatelessWidget {
         backgroundColor: Colors.orangeAccent,
       ),
     );
+  }
+
+  // Atualiza a quantidade no documento do Firestore
+  Future<void> atualizarQuantidadeNoFirestore(
+      String id, int novaQuantidade) async {
+    try {
+      await FirebaseFirestore.instance.collection('carrinho').doc(id).update({
+        'quantidade': novaQuantidade,
+      });
+    } catch (e) {
+      print('Erro ao atualizar a quantidade no Firestore: $e');
+    }
   }
 
   @override
@@ -72,12 +89,69 @@ class CartPage extends StatelessWidget {
                     return Card(
                       margin: const EdgeInsets.symmetric(vertical: 8),
                       child: ListTile(
-                        leading: Image.network(data['imageUrl']),
-                        title: Text(data['nome']),
-                        subtitle: Text('Quantidade: $quantity'),
-                        trailing: Text(data['preco']),
-                        onTap: () => removeProduct(context, document.id),
-                      ),
+                          leading: Image.network(data['imageUrl']),
+                          title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(data['nome']),
+                              Text(data['preco'],
+                                  style: const TextStyle(color: Colors.green)),
+                            ],
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text('Quantidade: $quantity'),
+                              IconButton(
+                                icon: const Icon(Icons.remove),
+                                onPressed: () {
+                                  if (quantity > 1) {
+                                    setState(() {
+                                      quantity--;
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('Quantidade mínima atingida.'),
+                                        backgroundColor:
+                                            Colors.deepOrangeAccent,
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add),
+                                onPressed: () {
+                                  if (quantity < data['estoque']) {
+                                    setState(() {
+                                      quantity++;
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Máximo de produtos em estoque atingido.'),
+                                        backgroundColor:
+                                            Colors.deepOrangeAccent,
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                          trailing: Column(
+                            children: [
+                              IconButton(
+                                  onPressed: () =>
+                                      removeProduct(context, document.id),
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    size: 30,
+                                  ))
+                            ],
+                          )),
                     );
                   }).toList(),
                 ),
@@ -88,9 +162,9 @@ class CartPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Total:',
-                      style: const TextStyle(fontSize: 20, color: Colors.grey),
+                      style: TextStyle(fontSize: 20, color: Colors.grey),
                     ),
                     Text(
                       'R\$ $totalStr',
