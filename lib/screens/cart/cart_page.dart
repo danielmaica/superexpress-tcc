@@ -107,6 +107,8 @@ class _CartPageState extends State<CartPage> {
                                   if (quantity > 1) {
                                     setState(() {
                                       quantity--;
+                                      atualizarQuantidadeNoFirestore(
+                                          document.id, quantity);
                                     });
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -126,6 +128,8 @@ class _CartPageState extends State<CartPage> {
                                   if (quantity < data['estoque']) {
                                     setState(() {
                                       quantity++;
+                                      atualizarQuantidadeNoFirestore(
+                                          document.id, quantity);
                                     });
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
