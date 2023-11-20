@@ -94,10 +94,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             widget.description,
             textAlign: TextAlign.center,
           ),
-          // Text(
-          //   'Em estoque: ${widget.stock}',
-          //   textAlign: TextAlign.center,
-          // ),
+          Text(
+            'Em estoque: ${widget.stock}',
+            textAlign: TextAlign.center,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
