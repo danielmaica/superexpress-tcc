@@ -33,6 +33,15 @@ class _CartPageState extends State<CartPage> {
     }
   }
 
+  Future<void> limparColecao() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('carrinho').get();
+
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      await doc.reference.delete();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,7 +189,26 @@ class _CartPageState extends State<CartPage> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  // Adicione aqui a lógica para finalizar a compra
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Compra Concluída'),
+                        content:
+                            const Text('Sua compra foi concluída com sucesso!'),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('OK'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+
+                  limparColecao();
                 },
                 child: const Text('Finalizar Compra'),
               ),

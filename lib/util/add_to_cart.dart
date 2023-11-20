@@ -26,12 +26,12 @@ void AddToCart(BuildContext context, String id, String name, int price,
         backgroundColor: Colors.greenAccent,
       ),
     );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Este produto já está no carrinho, escolha outro!'),
+        backgroundColor: Colors.red,
+      ),
+    );
   }
-
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      content: Text('Este produto já está no carrinho, escolha outro!'),
-      backgroundColor: Colors.red,
-    ),
-  );
 }

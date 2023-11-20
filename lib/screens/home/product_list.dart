@@ -45,14 +45,14 @@ class Product extends StatelessWidget {
           backgroundColor: Colors.greenAccent,
         ),
       );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Este produto já está no carrinho, escolha outro!'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Este produto já está no carrinho, escolha outro!'),
-        backgroundColor: Colors.red,
-      ),
-    );
   }
 
   @override
